@@ -48,7 +48,7 @@
     {{- $id = strings.TrimPrefix "@" $mastodonConfig -}}
 
   {{- /* Check if Mastodon is a map/object */ -}}
-  {{- else if printf "%T" $mastodonConfig | eq "map[string]interface {}" -}}
+  {{- else if printf "%T" $mastodonConfig | eq "map[string] {}" -}}
     {{- $id = .Id | default .id | default "" | strings.TrimPrefix "@" -}}
     {{- $prefix = .Prefix | default .prefix | default $prefix -}}
   
