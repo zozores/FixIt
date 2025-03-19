@@ -38,9 +38,10 @@
 {{- end -}}
 
 {{- /* Mastodon Validation for the site */ -}}
-{{- $mastodonConfig := . -}}
-{{- $id := "" -}}
-{{- $prefix := "https://mastodon.social/" -}}
+{{- with .Site.Params.social.Mastodon -}}
+  {{- $mastodonConfig := . -}}
+  {{- $id := "" -}}
+  {{- $prefix := "https://mastodon.social/" -}}
 
   {{- /* Check if Mastodon is a string */ -}}
   {{- if printf "%T" $mastodonConfig | eq "string" -}}
@@ -56,13 +57,17 @@
     {{- errorf "Invalid Mastodon configuration: %#v" $mastodonConfig -}}
   {{- end -}}
 
-{{- /* Construct profile URL */ -}}
-{{- $profileUrl := printf "%s/@%s" $prefix $id -}}
+  {{- /* Remove trailing slash from prefix */ -}}
+  {{- $prefix = strings.TrimSuffix "/" $prefix -}}
 
-{{- /* Only proceed if we have a valid ID */ -}}
-{{- if $id -}}
-  <link rel="me" href="{{ $profileUrl }}" />
-  <meta name="fediverse:creator" content="{{ $id }}@{{ (urls.Parse $prefix).Host }}" />
+  {{- /* Construct profile URL */ -}}
+  {{- $profileUrl := printf "%s/@%s" $prefix $id -}}
+
+  {{- /* Only proceed if we have a valid ID */ -}}
+  {{- if $id -}}
+    <link rel="me" href="{{ $profileUrl }}" />
+    <meta name="fediverse:creator" content="{{ $id }}@{{ (urls.Parse $prefix).Host }}" />
+  {{- end -}}
 {{- end -}}
 
 {{- /* style.min.css */ -}}
