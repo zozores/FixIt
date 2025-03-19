@@ -42,13 +42,13 @@
   {{- $mastodonConfig := . -}}
   {{- $id := "" -}}
   {{- $prefix := "https://mastodon.social/" -}}
-
+  {{- printf "%T" $mastodonConfig -}}
   {{- /* Check if Mastodon is a string */ -}}
   {{- if printf "%T" $mastodonConfig | eq "string" -}}
     {{- $id = strings.TrimPrefix "@" $mastodonConfig -}}
 
   {{- /* Check if Mastodon is a map/object */ -}}
-  {{- else if printf "%T" $mastodonConfig | eq "map[string] {}" -}}
+  {{- else if printf "%T" $mastodonConfig | eq "map[string]interface {}" -}}
     {{- $id = .Id | default .id | default "" | strings.TrimPrefix "@" -}}
     {{- $prefix = .Prefix | default .prefix | default $prefix -}}
   
