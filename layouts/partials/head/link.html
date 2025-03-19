@@ -44,11 +44,11 @@
   {{- $prefix := "https://mastodon.social/" -}}
 
   {{- /* Check if Mastodon is a string */ -}}
-  {{- if printf "%T" $mastodonConfig | eq "string" -}}
+  {{- if kindOf $mastodonConfig | eq "string" -}}
     {{- $id = strings.TrimPrefix "@" $mastodonConfig -}}
 
   {{- /* Check if Mastodon is a map/object */ -}}
-  {{- else if printf "%T" $mastodonConfig | eq "map[string]interface {}" -}}
+  {{- else if kindOf $mastodonConfig | eq "map" -}}
     {{- $id = .Id | default .id | default "" | strings.TrimPrefix "@" -}}
     {{- $prefix = .Prefix | default .prefix | default $prefix -}}
   
